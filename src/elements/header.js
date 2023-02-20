@@ -26,14 +26,13 @@ export default class Header extends Component {
         }
         return (
             <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-                <TitleComponent title="React CRUD Login "></TitleComponent>
+                <TitleComponent title="React Login "></TitleComponent>
 
                 <Link to={'/'} className="navbar-brand mr-1">Start Bootstrap</Link>
 
                 <button className="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle">
                     <i className="fas fa-bars"></i>
                 </button>
-
 
                 <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                     <div className="input-group">
@@ -54,9 +53,6 @@ export default class Header extends Component {
                             <i className="fas fa-user-circle fa-fw"></i>
                         </Link>
                         <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <Link to={'#'} className="dropdown-item">Settings</Link>
-                            <Link to={'#'} className="dropdown-item">Activity Log</Link>
-                            <div className="dropdown-divider"></div>
                             <Link to={'#'} onClick={this.handleClickLogout} className="dropdown-item" data-toggle="modal" data-target="#logoutModal">Logout</Link>
                         </div>
                     </li>

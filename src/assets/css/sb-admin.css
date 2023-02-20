@@ -4927,6 +4927,7 @@ input[type="button"].btn-block {
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  text-align: center;
 }
 
 .card-header:first-child {
@@ -10816,6 +10817,8 @@ body {
 
 .card-login {
   max-width: 25rem;
+  background: linear-gradient(0deg, rgba(131,91,188,1) 0%, rgba(59,99,228,1) 39%, rgba(7,10,142,1) 100%);
+  color: white;
 }
 
 .card-register {
@@ -10911,4 +10914,9 @@ body.sidebar-toggled footer.sticky-footer {
   body.sidebar-toggled footer.sticky-footer {
     width: calc(100% - 90px);
   }
+}
+
+.button-login {
+  background: #000000;
+  opacity: 35%;
 }

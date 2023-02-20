@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {Link, Redirect} from 'react-router-dom';
 import TitleComponent from "./title";
+import logoUser from '../assets/img/user-login.png';
 
 export default class Login extends Component {
-
     state = {
-        email: '',
+        username: '',
         password: '',
         redirect: false,
         authError: false,
@@ -14,8 +13,8 @@ export default class Login extends Component {
         location: {},
     };
 
-    handleEmailChange = event => {
-        this.setState({email: event.target.value});
+    handleUsernameChange = event => {
+        this.setState({username: event.target.value});
     };
     handlePwdChange = event => {
         this.setState({password: event.target.value});
@@ -24,37 +23,23 @@ export default class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         this.setState({isLoading: true});
-        const url = 'https://gowtham-rest-api-crud.herokuapp.com/login';
-        const email = this.state.email;
+        const username = this.state.username;
         const password = this.state.password;
-        let bodyFormData = new FormData();
-        bodyFormData.set('email', email);
-        bodyFormData.set('password', password);
-        axios.post(url, bodyFormData)
-            .then(result => {
-                if (result.data.status) {
-                    localStorage.setItem('token', result.data.token);
-                    this.setState({redirect: true, isLoading: false});
-                    localStorage.setItem('isLoggedIn', true);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({authError: true, isLoading: false});
-            });
+
+        var username_register = localStorage.getItem('username_register');
+        var password_register = localStorage.getItem('password_register');
+        
+        if (username == username_register && password == password_register) {
+            localStorage.setItem('token', '73rjhd8377aHS77sj023kshjd');
+            this.setState({redirect: true, isLoading: false});
+            localStorage.setItem('isLoggedIn', true);
+        } else {
+            alert("Please input a valid username & password")
+            this.setState({redirect: false, isLoading: false});
+        }
     };
 
     componentDidMount() {
-        const url = 'https://freegeoip.app/json/';
-        axios.get(url)
-            .then(response => {
-                const location = response.data;
-                this.setState({ location });
-            }) 
-            .catch(error => {
-                this.setState({ toDashboard: true });
-                console.log(error);
-            });
     }
 
     renderRedirect = () => {
@@ -67,32 +52,27 @@ export default class Login extends Component {
         const isLoading = this.state.isLoading;
         return (
             <div className="container">
-                <TitleComponent title="React CRUD Login "></TitleComponent>
+                <TitleComponent title="React Login "></TitleComponent>
                 <div className="card card-login mx-auto mt-5">
                     <div className="card-header">Login</div>
-                    <div className="text-center">
-                        <span>IP : <b>{this.state.location.ip}</b></span>, &nbsp;
-                        <span>Country : <b>{this.state.location.country_name}</b></span>, &nbsp;
-                        <span>Region : <b>{this.state.location.region_name}</b></span>, &nbsp;
-                        <span>City : <b>{this.state.location.city}</b></span>, &nbsp;
-                        <span>PIN : <b>{this.state.location.zip_code}</b></span>, &nbsp;
-                        <span>Zone : <b>{this.state.location.time_zone}</b></span>
-                    </div>
                     <div className="card-body">
+                        <div style={{textAlign: 'center'}}>
+                            <img src={logoUser} style={{height:110}}/>
+                        </div> <br></br>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <div className="form-label-group">
-                                    <input className={"form-control " + (this.state.authError ? 'is-invalid' : '')} id="inputEmail" placeholder="Email address" type="text" name="email" onChange={this.handleEmailChange} autoFocus required/>
-                                    <label htmlFor="inputEmail">Email address</label>
+                                    <input className={"form-control " + (this.state.authError ? 'is-invalid' : '')} id="inputUsername" placeholder="Username" type="text" name="username" onChange={this.handleUsernameChange} autoFocus required/>
+                                    <label htmlFor="inputUsername"></label>
                                     <div className="invalid-feedback">
-                                        Please provide a valid Email.
+                                        Please provide a valid Username.
                                     </div>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <div className="form-label-group">
-                                    <input type="password" className={"form-control " + (this.state.authError ? 'is-invalid' : '')} id="inputPassword" placeholder="******" name="password" onChange={this.handlePwdChange} required/>
-                                    <label htmlFor="inputPassword">Password</label>
+                                    <input type="text" className={"form-control " + (this.state.authError ? 'is-invalid' : '')} id="inputPassword" placeholder="******" name="password" onChange={this.handlePwdChange} required/>
+                                    <label htmlFor="inputPassword"></label>
                                     <div className="invalid-feedback">
                                         Please provide a valid Password.
                                     </div>
@@ -101,12 +81,12 @@ export default class Login extends Component {
                             <div className="form-group">
                                 <div className="checkbox">
                                     <label>
-                                        <input type="checkbox" value="remember-me"/>Remember Password
+                                        <input type="checkbox" value="remember-me"/> Remember Me
                                     </label>
                                 </div>
                             </div>
-                            <div className="form-group">
-                                <button className="btn btn-primary btn-block" type="submit" disabled={this.state.isLoading ? true : false}>Login &nbsp;&nbsp;&nbsp;
+                            <div className="form-group" style={{margin: '0px 10%'}}>
+                                <button className="btn btn-primary btn-block button-login" type="submit" disabled={this.state.isLoading ? true : false}>Login
                                     {isLoading ? (
                                         <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     ) : (
@@ -114,18 +94,10 @@ export default class Login extends Component {
                                     )}
                                 </button>
                             </div>
-                            <div className="form-group">
-                                <div className="form-group">
-                                    <b>email:</b> gowthaman.nkl1@gmail.com
-                                </div>
-                                <div className="form-group">
-                                    <b>password :</b> password
-                                </div>
-                            </div>
                         </form>
                         <div className="text-center">
-                            <Link className="d-block small mt-3" to={'register'}>Register an Account</Link>
-                            <a className="d-block small" href="forgot-password.html">Forgot Password?</a>
+                            <Link className="d-block small mt-3" to={'register'} style={{color: 'white'}}>Register an Account</Link>
+                            <Link className="d-block small mt-3" to={'forgotpassword'} style={{color: 'white'}}>Forgot Password?</Link>
                         </div>
                     </div>
                 </div>
